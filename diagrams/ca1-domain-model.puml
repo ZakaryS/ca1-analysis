@@ -1,0 +1,131 @@
+@startuml
+left to right direction
+
+class Customer {
+  customerID
+  name
+  phoneNumber
+  email
+}
+
+class Site {
+  siteID
+  name
+  address
+}
+
+class "Access Method" as AccessMethod {
+  accessMethodID
+  accessInfo
+}
+
+class Installation {
+  installationID
+  model
+  type
+  condition
+}
+
+class Component {
+  componentID
+  model
+  serialNumber
+  warranty
+  isInstalled
+  isReserved
+}
+
+class Manufacturer {
+  manufacturerID
+  name
+  phoneNumber
+  email
+}
+
+class "Symptom Report" as SymptomReport {
+  symptomReportID
+  symptomDescription
+}
+
+class Fault {
+  faultID
+  description
+  priority
+  status
+}
+
+class Assessment {
+  assessmentID
+  description
+  resolution
+  status
+}
+
+class Visit {
+  visitID
+  startTime
+  endTime
+}
+
+class Technician {
+  technicianID
+  name
+}
+
+class Skill {
+  skillID
+  name
+  proficiency
+}
+
+class Equipment {
+  equipmentID
+  name
+}
+
+class Quotation {
+  quotationID
+  price
+}
+
+class Approval {
+  approvalID
+  signature
+  audioEvidence
+  videoEvidence
+}
+
+class "Work Report" as WorkReport {
+  workReportID
+  tasks
+  observations
+  readings
+}
+
+class Order {
+  orderID
+  price
+  orderDate
+  deliveryDate
+}
+
+Customer "1" --* "0..*" Site : owns
+Site "1" --* "0..*" AccessMethod : has
+Site "1" --* "0..*" Installation : contains
+Installation "1..*" --o "0..*" Component : contains
+Manufacturer "1" --o "1..*" Component : produces
+Installation "1" --* "0..*" SymptomReport : has
+SymptomReport "0..*" -- "0..*" Fault : due to
+Site "1" --* "0..*" Visit : has
+Visit "1..*" -- "0..*" Technician : performs
+Technician "0..*" --* "0..*" Skill : has
+Technician "0..*" --* "0..*" Equipment : uses
+Customer "1" --* "0..*" Quotation : receives
+Customer "1" --* "0..*" Approval : gives
+Quotation "1" -- "0..*" Approval : gets
+Visit "1" --* "1..*" WorkReport : produces
+WorkReport "0..*" -- "1" Installation : for
+Installation "1" -- "0..*" Assessment : gets
+Component "1..*" -- "1" Order : is
+
+// I could have set up the database with diagrams in far less time.
